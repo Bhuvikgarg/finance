@@ -8,6 +8,7 @@ yfinance>=0.2.30
 # Machine Learning & Modeling
 scikit-learn>=1.2.0
 lightgbm>=4.0.0
+vaderSentiment>=3.3.2
 
 # Visualization & Reporting
 matplotlib>=3.7.0
