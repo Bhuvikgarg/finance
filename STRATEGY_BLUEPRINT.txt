@@ -1,0 +1,183 @@
+================================================================================
+                    AURA-QUANT TRADING STRATEGY BLUEPRINT
+      REGIME-ADAPTIVE EXPECTATION GAP & TRIPLE-BARRIER MOMENTUM (REGM-X)
+================================================================================
+
+AUTHOR: Bhuvik Garg
+FRAMEWORK: Multi-Agent Quantitative Architecture
+PLATFORM COMPATIBILITY: NSE/BSE Equities, Crude Oil/Commodities, Global Markets
+DOCUMENT VERSION: 1.0 (Production Blueprint)
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+1. EXECUTIVE SUMMARY & CORE THESIS
+2. THE 4 SPECIALIST AGENT CRITERIA
+3. STEP-BY-STEP TRADE ENTRY RULES
+4. TRIPLE-BARRIER EXIT & RISK MANAGEMENT RULES
+5. PRE-TRADE FAKEOUT & MANIPULATION CHECKLIST
+6. POSITION SIZING & CAPITAL ALLOCATION FORMULA
+7. EXECUTION PROTOCOL (MANUAL & ALGORITHMIC ORDER TYPES)
+--------------------------------------------------------------------------------
+
+
+================================================================================
+1. EXECUTIVE SUMMARY & CORE THESIS
+================================================================================
+Traditional indicators fail because they operate in isolation. 
+The REGM-X Strategy generates edge by combining two institutional principles:
+
+PRINCIPLE 1: "Markets Move on the Expectation Gap"
+  Price does not move because news is good or bad; it moves when the reported
+  reality or volume flow exceeds or contradicts what the consensus priced in.
+
+PRINCIPLE 2: "Regime-Conditioned Volatility Barriers"
+  Never use arbitrary fixed rupee/dollar stop losses. All targets and stops 
+  must dynamically expand and contract based on 14-day Average True Range (ATR)
+  and macro market regimes (Bull, Bear, Sideways).
+
+
+================================================================================
+2. THE 4 SPECIALIST AGENT CRITERIA (WHAT EACH AGENT MUST CONFIRM)
+================================================================================
+
+[AGENT 1: THE FUNDAMENTAL AGENT]
+  - Debt-to-Equity < 1.5 (or healthy net-cash balance sheet).
+  - Operating Margins are stable or expanding over the last 2 quarters.
+  - Forward P/E is justified relative to historical peer averages.
+  - VERDICT NEEDED: Business viability pass (Eliminate bankruptcy/fraud risk).
+
+[AGENT 2: THE TECHNICAL & FLOW AGENT]
+  - Macro Trend Alignment: Price > 50-day SMA.
+  - Momentum: 14-day RSI between 45 and 68 (NOT in extreme overbought > 75).
+  - Market Flow (Volume): Current volume > 1.2x of the 20-day moving average.
+  - On-Balance Volume (OBV): Positive 10-day slope confirming accumulation.
+  - VERDICT NEEDED: Liquidity and momentum confirmation.
+
+[AGENT 3: THE NEWS & SENTIMENT NLP AGENT]
+  - Real-time News Sentiment Index >= +15 on a -100 to +100 scale.
+  - Absence of severe legal, regulatory (SEBI/SEC), or forensic fraud probes.
+  - VERDICT NEEDED: Market psychology tailwind.
+
+[AGENT 4: THE ANALYST & CONSENSUS AGENT]
+  - Stock is trading below the Institutional Consensus Price Target.
+  - Upside room to consensus target is at least >= +8%.
+  - VERDICT NEEDED: Meaningful institutional runway.
+
+
+================================================================================
+3. STEP-BY-STEP TRADE ENTRY RULES (ALL CONDITIONS MUST BE MET)
+================================================================================
+
+[RULE 1: REGIME QUALIFICATION]
+  - Unsupervised GMM Model must classify the asset/market in:
+    * "🟢 Bull Regime" OR
+    * "🟡 Sideways/Choppy Regime" at the lower Bollinger / Value Area boundary.
+  - [HARD FILTER]: NEVER take long breakout trades in a "🔴 Bear Regime".
+
+[RULE 2: PROBABILITY THRESHOLD]
+  - The Calibrated LightGBM model must output:
+    * P(Bullish Target Hit) >= 38.0%
+    * Directional Edge = P(Bull) - P(Bear) >= +8.0%
+    * Mathematical Expected Value (EV) > 0.00%
+
+[RULE 3: BENCHMARK CONTEXT (NIFTY 50 / INDEX)]
+  - Benchmark Index 1-day return is positive OR rolling 20-day correlation
+    indicates the stock has positive idiosyncratic alpha (decoupled strength).
+
+ENTRY ACTION:
+  Enter Long at market open following the confirmation bar, or execute via
+  a limit order resting 1 tick inside the bid-ask spread.
+
+
+================================================================================
+4. TRIPLE-BARRIER EXIT & RISK MANAGEMENT RULES
+================================================================================
+
+Every single trade MUST have 3 active barriers placed immediately upon entry:
+
+[BARRIER 1: THE PROFIT TARGET (UPPER BARRIER)]
+  - Formula: Entry Price + (1.50 × ATR_14)
+  - Action: Place a Limit Sell Order at this exact price.
+  - Rule: When hit, exit 70% of the position to bank profit; move stop on 
+    remaining 30% to breakeven (entry price) to capture runners.
+
+[BARRIER 2: THE STOP-LOSS FLOOR (LOWER BARRIER)]
+  - Formula: Entry Price - (1.00 × ATR_14)
+  - Action: Place a Stop-Loss Market/Limit Order immediately upon entry fill.
+  - Rule: Non-negotiable. If price touches this level, exit 100% of the position.
+  - Risk-to-Reward Ratio: Pre-engineered at minimum 1.5 : 1.0.
+
+[BARRIER 3: THE TIME HORIZON BARRIER (VERTICAL EXPIRATION)]
+  - Formula: Entry Bar + 5 Trading Sessions (Max Holding Period).
+  - Rule: If after 5 trading days neither the Profit Target nor the Stop Loss
+    has been hit, liquidate the entire position at market close.
+  - Reason: Dead money tying up capital in low-probability consolidation.
+
+
+================================================================================
+5. PRE-TRADE FAKEOUT & MANIPULATION CHECKLIST (DO NOT TRADE IF FLAGGED)
+================================================================================
+
+Before entering any position, run the following 4-step trap audit:
+
+[ ] CHECK 1: VOLUME DIVERGENCE (BULL TRAP)
+    - Did price make a 5-day gain while volume fell below 0.65x average?
+    - If YES: REJECT TRADE. Smart money is not backing the breakout.
+
+[ ] CHECK 2: MOMENTUM EXHAUSTION (RSI DIVERGENCE)
+    - Did price hit a higher 10-day high while RSI made a lower high?
+    - If YES: REJECT TRADE. Upward momentum is dying.
+
+[ ] CHECK 3: "SELL-THE-NEWS" TRAP
+    - Is news sentiment screaming bullish (+40/100) while daily price bar 
+      closed red with heavy volume?
+    - If YES: REJECT TRADE. Institutions are dumping into retail enthusiasm.
+
+[ ] CHECK 4: OVERBOUGHT RUBBER-BAND
+    - Is the stock more than +12% above its 50-day SMA with RSI > 78?
+    - If YES: REJECT TRADE. Wait for a pullback to the 20-day SMA.
+
+
+================================================================================
+6. POSITION SIZING & CAPITAL ALLOCATION FORMULA
+================================================================================
+
+Never risk more than 1.0% to 1.5% of total account capital on a single trade.
+
+FORMULA:
+  Position Size (Shares) = (Total Account Capital × Max Risk %) / (1.00 × ATR_14)
+
+PRACTICAL EXAMPLE:
+  - Account Size: ₹500,000
+  - Max Risk (1.0%): ₹5,000
+  - Stock Current Price: ₹368.00
+  - ATR_14 (1.0x ATR Stop Distance): ₹10.50
+  
+  Calculation:
+    Position Size = ₹5,000 / ₹10.50 = 476 Shares
+    Total Capital Allocated = 476 × ₹368.00 = ₹175,168
+    Maximum Potential Loss if Stopped Out = 476 × ₹10.50 = ₹4,998 (Exact 1.0%)
+
+
+================================================================================
+7. EXECUTION PROTOCOL (HOW TO EXECUTE PROFESSIONALLY)
+================================================================================
+
+FOR RETAIL TRADERS (Zerodha / Groww / Interactive Brokers):
+  1. Calculate your stop-loss and profit target prices using the dashboard Tab 1.
+  2. Use a "GTT" (Good-Till-Triggered) or Bracket / OCO Order.
+  3. Set Trigger 1: Upper Target (Take Profit).
+  4. Set Trigger 2: Lower Target (Stop Loss).
+
+FOR ADVANCED / FUTURES & CRUDE OIL TRADERS (Trading Technologies - TT):
+  1. Entry Order: "TT With A Tick" (Captures the inside spread without chasing).
+  2. Execution Disguise: "TT Iceberg" (Shows only 2-5 lots if trading size).
+  3. Position Management: "TT Bracket" (Auto-links Profit Limit + Stop Loss).
+  4. Trailing Extension: Once price gains +0.8x ATR, transition stop to 
+     "TT Trailing Limit" to lock in trailing profits.
+
+================================================================================
+                     DISCIPLINE IS THE ONLY EDGE.
+          FOLLOW THE SYSTEM. RESPECT THE ATR. PROTECT THE CAPITAL.
+================================================================================
